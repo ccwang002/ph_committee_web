@@ -3,6 +3,7 @@ from pathlib import Path
 import sqlite3
 from bottle import Bottle, jinja2_view, run, abort, static_file
 
+
 app = Bottle()
 _create_db_tables_sql = '''\
 CREATE TABLE comm_names (
@@ -153,4 +154,6 @@ def search():
 def callback(path):
     return static_file(path, './static')
 
-run(app, host='localhost', port=8080, debug=True, reloader=True)
+
+if __name__ == '__main__':
+    run(app, host='localhost', port=8080, debug=True, reloader=True)
