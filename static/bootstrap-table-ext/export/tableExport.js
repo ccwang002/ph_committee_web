@@ -78,9 +78,13 @@
                 var base64data = "base64," + $.base64.encode(tdData);
                 // window.open('data:application/'+defaults.type+';filename=exportData;' + base64data);
                 // HACK BEGIN, hardcoded behavior
-                var uri = 'data:application/csv;' + base64data;
+                var uri = 'data:application/' + defaults.type + ';' + base64data;
                 var downloadLink = document.createElement("a");
                 downloadLink.href = uri;
+                if (detectIE()) {
+                    alert('Downloading CSV/TXT is NOT supported on IE. Try Firefox or Chrome.');
+                    return;
+                }
                 var filename = $('h1').text();
                 var filterSelections = [];
                 $('select.form-control').each(function(){
@@ -90,9 +94,9 @@
                 // console.log(filterSelections);
                 var selectionJoint = filterSelections.join('_');
                 if (selectionJoint) {
-                    downloadLink.download = $('h1').text() + "_" + selectionJoint + ".csv"
+                    downloadLink.download = $('h1').text() + "_" + selectionJoint + "." + defaults.type;
                 } else {
-                    downloadLink.download = $('h1').text() + ".csv";
+                    downloadLink.download = $('h1').text() + "." + defaults.type;
                 }
 
                 document.body.appendChild(downloadLink);
@@ -376,6 +380,32 @@
                 return content_data;
             }
 
+
+            function detectIE() {
+                var ua = window.navigator.userAgent;
+
+                var msie = ua.indexOf('MSIE ');
+                if (msie > 0) {
+                    // IE 10 or older => return version number
+                    return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
+                }
+
+                var trident = ua.indexOf('Trident/');
+                if (trident > 0) {
+                    // IE 11 => return version number
+                    var rv = ua.indexOf('rv:');
+                    return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+                }
+
+                var edge = ua.indexOf('Edge/');
+                if (edge > 0) {
+                    // IE 12 => return version number
+                    return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
+                }
+
+                // other browser
+                return false;
+            }
         }
     });
 })(jQuery);
