@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ name }}<small>老師</small></h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>委員會</th>
+      <th>院/校級</th>
+      <th>年度</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for rec in records %}
+      <tr>
+        <td><a href="/committee/{{ rec.c_id }}/">{{ rec.committee }}</a></td>
+        <td>{{ rec.committee_level }}</td>
+        <td>{{ rec.year }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- <h2>使用老師姓名查詢</h2>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <form class="form-inline" action="/teacher/" method="post" role="form">
+      <div class="form-group">
+        <label for="teacherName control-label">老師姓名</label>
+        <input name="teacherName" type="text" class="form-control" id="teacherName">
+      </div>
+      <button class="btn btn-default" type="submit">查詢</button>
+    </form>
+  </div>
+</div>
+<hr class='hr'> -->
+<h2>老師查詢</h2>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <ul class="list-inline">
+      {% for teacher in teachers %}
+      <li><a href="/teacher/{{ teacher.id }}/">{{ teacher.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div><!-- /.row -->
+<hr>
+<h2>委員會查詢</h2>
+<h3>校級</h3>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <ul class="list-inline">
+      {% for comm in school_committees %}
+      <li><a href="/committee/{{ comm.id }}/">{{ comm.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div><!-- /.row -->
+<h3>院級</h3>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <ul class="list-inline">
+      {% for comm in disp_committees %}
+      <li><a href="/committee/{{ comm.id }}/">{{ comm.name }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+</div><!-- /.row -->
+{% endblock content %}
