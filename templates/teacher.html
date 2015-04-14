@@ -2,12 +2,22 @@
 
 {% block content %}
 <h1>{{ name }}<small>老師</small></h1>
-<table class="table table-striped">
+<div id="toolbar">
+</div>
+<table class="table table-striped" id="table"
+  data-toggle="table"
+  data-search="true"
+  data-toolbar="#toolbar"
+  data-sort-name="year"
+  data-sort-order="desc"
+  data-show-export="true"
+  data-filter-control="true"
+  data-export-types="['csv']">
   <thead>
     <tr>
-      <th>委員會</th>
-      <th>院/校級</th>
-      <th>年度</th>
+      <th data-field="committe" data-sortable="true" class="col-md-6">委員會</th>
+      <th data-field="level" data-sortable="true" data-filter-control="select" class="col-md-3">院/校級</th>
+      <th data-field="year" data-sortable="true" data-filter-control="select" class="col-md-3">年度</th>
     </tr>
   </thead>
   <tbody>
@@ -21,3 +31,20 @@
   </tbody>
 </table>
 {% endblock content %}
+
+{% block css %}
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.7.0/bootstrap-table.min.css">
+{% endblock %}
+
+{% block headjs %}
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.7.0/bootstrap-table.min.js"></script>
+{% endblock %}
+
+
+{% block js %}
+<script src="/static/bootstrap-table-ext/export/tableExport.js"></script>
+<script src="/static/bootstrap-table-ext/export/jquery.base64.js"></script>
+<script src="/static/bootstrap-table-ext/export/bootstrap-table-export.js"></script>
+<script src="/static/bootstrap-table-ext/filtercontrol/bootstrap-table-filtercontrol.js"></script>
+{% endblock js %}

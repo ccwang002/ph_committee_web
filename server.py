@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 import sqlite3
-from bottle import Bottle, jinja2_view, run, abort
+from bottle import Bottle, jinja2_view, run, abort, static_file
 
 app = Bottle()
 _create_db_tables_sql = '''\
@@ -147,5 +147,10 @@ def search():
         'school_committees': school_committees,
         'disp_committees': disp_committees,
     }
+
+
+@app.route('/static/<path:path>')
+def callback(path):
+    return static_file(path, './static')
 
 run(app, host='localhost', port=8080, debug=True, reloader=True)
