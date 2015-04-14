@@ -24,6 +24,9 @@ CREATE TABLE comm_list (
 .import raw_export/comm_list.headless comm_list
 
 CREATE VIEW committee AS
-    SELECT t.name AS teacher, c.name AS committee, c.level AS committee_level, cl.year AS year
+    SELECT
+        t.name AS teacher, t.id AS t_id,
+        c.name AS committee, c.id AS c_id,
+        c.level AS committee_level, cl.year AS year
     FROM teachers AS t, comm_names AS c, comm_list AS cl
     WHERE t.id == cl.teacher_id AND c.id == cl.comm_id;
