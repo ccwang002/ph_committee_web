@@ -1,12 +1,21 @@
-{% extends "base.html" %}
+{% extends "table.html" %}
 
 {% block content %}
 <h1>{{ name }} <small>{{ level }}級</small></h1>
-<table class="table table-striped">
+<div id="toolbar"></div>
+<table class="table table-striped" id="table"
+  data-toggle="table"
+  data-search="true"
+  data-toolbar="#toolbar"
+  data-sort-name="year"
+  data-sort-order="desc"
+  data-show-export="true"
+  data-filter-control="true"
+  data-export-types="['csv']">
   <thead>
     <tr>
-      <th>老師</th>
-      <th>年度</th>
+      <th data-field="teacher" data-sortable="true" class="col-md-8">老師</th>
+      <th data-field="year" data-sortable="true" data-filter-control="select" class="col-md-4">年度</th>
     </tr>
   </thead>
   <tbody>
