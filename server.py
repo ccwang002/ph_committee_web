@@ -1,7 +1,7 @@
-from bottle import Bottle, jinja2_view, run, abort, redirect
 import csv
-import sqlite3
 from pathlib import Path
+import sqlite3
+from bottle import Bottle, jinja2_view, run, abort
 
 app = Bottle()
 _create_db_tables_sql = '''\
@@ -36,11 +36,6 @@ _create_db_view_sql = '''\
     WHERE t.id == cl.teacher_id AND c.id == cl.comm_id;
 '''
 
-@app.route('/')
-@jinja2_view('index.html', template_lookup=['templates'])
-def index():
-    return {}
-
 
 def int_csv_reader(csv_pth, int_fields=None):
     with open(csv_pth) as f:
@@ -52,13 +47,16 @@ def int_csv_reader(csv_pth, int_fields=None):
             yield converted_row
 
 
-@app.route('/db/reload/', method='POST')
+@app.route('/', method='POST')
 def reload_db():
+    # if database does not exist, create a new one without renaming.
+    # otherwise move the original databse as xxx.prev
     try:
         Path('comm.db').rename('comm.db.prev')
         db_existed = True
     except FileNotFoundError:
         db_existed = False
+    # recreate the database. If any move fails, move back the original databse.
     try:
         conn = sqlite3.connect('comm.db')
         conn.executescript(_create_db_tables_sql)
@@ -83,7 +81,7 @@ def reload_db():
     else:
         if db_existed:
             Path('comm.db.prev').unlink()
-        redirect('/')
+        return index(msg='Successfully reload!')
 
 
 # @app.route('/teacher/', method='POST')
@@ -95,6 +93,13 @@ def connect_db():
     conn = sqlite3.connect('comm.db')
     conn.row_factory = sqlite3.Row
     return conn
+
+
+@app.route('/', method='GET')
+@jinja2_view('index.html', template_lookup=['templates'])
+def index(msg=''):
+    return {'msg': msg}
+
 
 @app.route('/teacher/<id>/')
 @jinja2_view('teacher.html', template_lookup=['templates'])

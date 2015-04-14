@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
+{% if msg %}
+<div class="alert alert-success" role="alert">
+  {{ msg }}
+</div>
+{% endif %}
 <div class="row">
   <div class="col-sm-10 col-sm-offset-1">
-    <form class="form-inline" action="/db/reload/" method="post" role="form">
+    <form class="form-inline" action="/" method="post" role="form">
       <p>清除現有資料庫資料，重新建立 SQLite3 資料庫。務必先將原始資料放於 <code>raw_export/</code> 底下，包含：</p>
       <ul>
         <li><code>comm_list.headless</code></li>
