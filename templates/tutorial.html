@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>從 Access 匯出資料</h1>
+
+<a name="fast-export"></a>
+<h2>快速匯出</h2>
+<div class="alert alert-info" role="alert">
+  如果並沒有設定好的匯出選項，可以參考下方的<a class="alert-link" href="#full-export">完整匯出教學</a>。
+</div>
+<p>1. 開啟 Access 應用程式，確認資料庫中有 <code>comm_list</code>、<code>comm_name</code>、<code>teacher</code> 三張表格。選擇上方工具列「External Data」→「Saved Exports」。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/fast_export/01_access_app.png" alt="">
+</div></div>
+<p>2. 跳出一個「Manage Data Tasks」視窗。第一次操作時，可以把三個表格對應的路徑改成程式資料夾 <code>...\raw_export\表格名稱.txt</code>。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/fast_export/02_change_path.png" alt="">
+</div></div>
+<p>3. 完成路徑設定後，只要依序選取三個表格，點擊左下角「Run」的按鈕即可。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/fast_export/03_fast_export.png" alt="">
+</div></div>
+<p>4. 到首頁選擇「重新載入資料庫」即可。完成會看到一個「Successfully reloaded 字樣」。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/fast_export/04_done.png" alt="">
+</div></div>
+
+<a name="full-export"></a>
+<h2>完整匯出教學</h2>
+<div class="alert alert-info" role="alert">
+  如果能用<a class="alert-link" href="#fast-export">前述的方法</a>匯出，則可不用閱讀。
+</div>
+<p>1. 開啟 Access 應用程式，確認資料庫中有 <code>comm_list</code>、<code>comm_name</code>、<code>teacher</code> 三張表格。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/full_export/01_access_app.png" alt="">
+</div></div>
+<p>2. 按順序在右側 Tables 中三張表格按右鍵，選擇「Export」→「Text File」。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/full_export/02_export_menu.png" alt="">
+</div></div>
+<p>3. 此時會出現「Export Text Wizard」視窗。本頁面維持預設 <strong>Delimited</strong> 設定。按下一步。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/full_export/03_export_wizard_tab1.png" alt="">
+</div></div>
+<p>4. 選擇輸出的位置，請記得保持原本 <code>表格名稱.txt</code> 的格式。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/full_export/04_export_wizard_tab2.png" alt="">
+</div></div>
+<p>5. 選擇輸出的格式細節，請照截圖的選項或預設值設定。完成之後按下左下角「Advanced...」按鈕。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/full_export/05_export_wizard_tab3.png" alt="">
+</div></div>
+<p>6. 會跳出新視窗。<strong>將 code page 改成「Unicode (UTF-8)」</strong>。</p>
+<div class="row"><div class="col-md-8 col-md-offset-2">
+  <img class="img-responsive center-block" src="/static/tutorial/full_export/06_export_wizard_tab4.png" alt="">
+</div></div>
+<p>7. 到這邊已經完成所有設定，請繼續按下一步直到 Wizard 視窗關閉。確認系統中剛剛設定的路徑已有輸出檔案。</p>
+<p>8. 重覆上述動作完成三個表格。最後將三個 <code>txt</code> 檔案複製至程式目錄的 <code>raw_export\</code> 資料夾裡。</p>
+
+{% endblock content %}

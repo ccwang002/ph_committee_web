@@ -152,6 +152,12 @@ def search():
     }
 
 
+@app.route('/tutorial/')
+@jinja2_view('tutorial.html', template_lookup=['templates'])
+def tutorial():
+    return {}
+
+
 @app.route('/static/<path:path>')
 def callback(path):
     return static_file(path, './static')
