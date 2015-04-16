@@ -64,15 +64,15 @@ def reload_db():
         conn.executescript(_create_db_view_sql)
         conn.executemany(
             'INSERT INTO teachers VALUES (?, ?, ?)',
-            int_csv_reader('raw_export/teacher.headless', [0])
+            int_csv_reader('raw_export/teacher.txt', [0])
         )
         conn.executemany(
             'INSERT INTO comm_names VALUES (?, ?, ?)',
-            int_csv_reader('raw_export/comm_name.headless', [0])
+            int_csv_reader('raw_export/comm_name.txt', [0])
         )
         conn.executemany(
             'INSERT INTO comm_list VALUES (?, ?, ?)',
-            int_csv_reader('raw_export/comm_list.headless', [0, 1])
+            int_csv_reader('raw_export/comm_list.txt', [0, 1])
         )
         conn.commit()
     except Exception as e:
