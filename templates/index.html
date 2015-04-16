@@ -2,22 +2,41 @@
 
 {% block content %}
 {% if msg %}
-<div class="alert alert-success" role="alert">
-  {{ msg }}
-</div>
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <div class="alert alert-success" role="alert">
+      <p>{{ msg }}</p>
+    </div>
+  </div><!-- /.col -->
+</div><!-- /.row -->
 {% endif %}
 <div class="row">
   <div class="col-sm-10 col-sm-offset-1">
-    <form class="form-inline" action="/" method="post" role="form">
-      <p>清除現有資料庫資料，重新建立 SQLite3 資料庫。務必先將原始資料放於 <code>raw_export/</code> 底下，包含：</p>
-      <ul>
-        <li><code>comm_list.txt</code></li>
-        <li><code>comm_name.txt</code></li>
-        <li><code>teacher.txt</code></li>
-      </ul>
-      <p>三個檔案</p>
-      <button type="submit" class="btn btn-danger btn-lg">重新載入資料庫</button>
-    </form>
-  </div>
-</div>
-{% endblock %}
+    <div class="panel panel-info">
+      <div class="panel-heading">使用注意事項</div>
+      <div class="panel-body">
+        <p>建議使用 Firefox 或 Chrome 瀏覽。</p>
+      </div>
+    </div>
+  </div><!-- /.col -->
+</div><!-- /.row -->
+<div class="row">
+  <div class="col-sm-10 col-sm-offset-1">
+    <div class="panel panel-danger">
+      <div class="panel-heading">更新資料庫內容</div>
+      <div class="panel-body">
+        <form class="form-inline" action="/" method="post" role="form">
+          <p>清除現有資料庫資料，重新建立 SQLite3 資料庫。務必先將原始資料放於 <code>raw_export/</code> 底下，包含：</p>
+          <ul>
+            <li><code>comm_list.txt</code></li>
+            <li><code>comm_name.txt</code></li>
+            <li><code>teacher.txt</code></li>
+          </ul>
+          <p>以上三個檔案。從 Access 匯出資料的方式應參考匯出說明。</p>
+          <button type="submit" class="btn btn-danger btn-lg pull-right">重新載入資料庫</button>
+        </form>
+      </div>
+    </div>
+  </div><!-- /.col -->
+</div><!-- /.row -->
+{% endblock content %}
