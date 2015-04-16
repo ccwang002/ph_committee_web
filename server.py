@@ -39,7 +39,7 @@ _create_db_view_sql = '''\
 
 
 def int_csv_reader(csv_pth, int_fields=None):
-    with open(csv_pth) as f:
+    with open(csv_pth, encoding='utf8') as f:
         reader = csv.reader(f)
         for row in reader:
             converted_row = [
@@ -76,7 +76,9 @@ def reload_db():
         )
         conn.commit()
     except Exception as e:
+        conn.close()
         if db_existed:
+            Path('comm.db').unlink()
             Path('comm.db.prev').rename('comm.db')
         abort(500, 'Database reload FAILED with following error:\n' + repr(e))
     else:
