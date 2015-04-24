@@ -2,6 +2,11 @@
 
 {% block content %}
 <h1>{{ name }}<small>老師</small></h1>
+{% if start_year and end_year %}
+<div class="alert alert-success" role="alert">
+  篩選列出自 <strong>{{ start_year }}</strong> 至 <strong>{{ end_year }}</strong> 年度之記錄。<a href="/teacher/{{ t_id }}/" class="alert-link">點此</a>還原顯示所有年度記錄。
+</div>
+{% endif %}
 <div id="toolbar"></div>
 <table class="table table-striped" id="table"
   data-toggle="table"

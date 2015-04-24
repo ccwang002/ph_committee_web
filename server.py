@@ -104,35 +104,62 @@ def index(msg=''):
     return {'msg': msg}
 
 
-@app.route('/teacher/<id>/')
+@app.route('/teacher/<t_id>/')
 @jinja2_view('teacher.html', template_lookup=['templates'])
-def teacher(id):
+def teacher(t_id):
     conn = connect_db()
-    name = conn.execute(
-        'SELECT name FROM teachers WHERE id = ?', (id,)
-    ).fetchone()[0]
     records = conn.execute(
-        'SELECT * FROM committee WHERE teacher = ? ORDER BY year DESC', (name,)
+        'SELECT * FROM committee WHERE t_id = ? ORDER BY year DESC', (t_id,)
     ).fetchall()
-    if records:
+    if not records:
+        abort(404, 'Teacher ID %s not exists or no record found.' % t_id)
+    try:
+        name = records[0]['teacher']
         return {'name': name, 'records': records}
-    else:
-        abort(404, 'Teacher {} no record'.format(name))
+    except Exception as e:
+        abort(500,
+              'Teacher %s record loading failed with error:\n%r' % (t_id, e))
 
 
-@app.route('/committee/<id>/')
-@jinja2_view('committee.html', template_lookup=['templates'])
-def committee(id):
+@app.route('/teacher/<t_id>/filter-year/<s_yr>/<e_yr>/')
+@jinja2_view('teacher.html', template_lookup=['templates'])
+def teacher_year_filter(t_id, s_yr, e_yr):
     conn = connect_db()
-    name, level = conn.execute(
-        'SELECT name, level FROM comm_names WHERE id = ?', (id,)
-    ).fetchone()
     records = conn.execute(
-        'SELECT * FROM committee WHERE committee = ? '
-        'ORDER BY year DESC', (name,)
+        'SELECT * FROM committee '
+        'WHERE t_id = ? AND year BETWEEN ? AND ?'
+        'ORDER BY year DESC', (t_id, s_yr, e_yr)
     ).fetchall()
-    return {'name': name, 'level': level, 'records': records}
+    if not records:
+        abort(404, 'Teacher ID %s not exists or no record found.' % t_id)
+    try:
+        name = records[0]['teacher']
+        return {
+            'name': name, 'records': records, 't_id': t_id,
+            'start_year': s_yr, 'end_year': e_yr,
+        }
+    except Exception as e:
+        abort(500,
+              'Teacher %s record loading failed with error:\n%r' % (t_id, e))
 
+
+@app.route('/committee/<c_id>/')
+@jinja2_view('committee.html', template_lookup=['templates'])
+def committee(c_id):
+    conn = connect_db()
+    records = conn.execute(
+        'SELECT * FROM committee WHERE c_id = ? '
+        'ORDER BY year DESC', (c_id,)
+    ).fetchall()
+    if not records:
+        abort(404, 'Committee ID %s not exists or no record found.' % c_id)
+    try:
+        rec = records[0]
+        name, level = rec['committee'], rec['committee_level']
+        return {'name': name, 'level': level, 'records': records}
+    except Exception as e:
+        abort(500,
+              'Committee %s record loading failed with error:\n%r' % (c_id, e))
 
 @app.route('/search/')
 @jinja2_view('search.html', template_lookup=['templates'])
