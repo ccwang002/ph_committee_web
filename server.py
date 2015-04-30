@@ -1,7 +1,7 @@
 import csv
 from pathlib import Path
 import sqlite3
-from bottle import Bottle, jinja2_view, run, abort, static_file
+from bottle import Bottle, jinja2_view, run, abort, static_file, request
 
 
 app = Bottle()
@@ -115,15 +115,16 @@ def teacher(t_id):
         abort(404, 'Teacher ID %s not exists or no record found.' % t_id)
     try:
         name = records[0]['teacher']
-        return {'name': name, 'records': records}
+        return {'name': name, 'records': records, 't_id': t_id}
     except Exception as e:
         abort(500,
               'Teacher %s record loading failed with error:\n%r' % (t_id, e))
 
 
-@app.route('/teacher/<t_id>/filter-year/<s_yr>/<e_yr>/')
+@app.route('/teacher/<t_id>/filter-year/', method='POST')
 @jinja2_view('teacher.html', template_lookup=['templates'])
-def teacher_year_filter(t_id, s_yr, e_yr):
+def teacher_year_filter(t_id):
+    s_yr, e_yr = map(request.forms.get, ['start_year', 'end_year'])
     conn = connect_db()
     records = conn.execute(
         'SELECT * FROM committee '

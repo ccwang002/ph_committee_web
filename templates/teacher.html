@@ -34,4 +34,18 @@
     {% endfor %}
   </tbody>
 </table>
+{% if not start_year and not end_year %}
+<h3>縮限查詢年份</h3>
+<form class="form-inline" action="/teacher/{{ t_id }}/filter-year/" method="post" role="form">
+  <div class="form-group">
+    <label for="start_year">起始年份（含）</label>
+    <input type="text" class="form-control" name="start_year" placeholder="">
+  </div>
+  <div class="form-group">
+    <label for="end_year">終止年份（含）</label>
+    <input type="text" class="form-control" name="end_year" placeholder="">
+  </div>
+  <button type="submit" class="btn btn-primary">篩選</button>
+</form>
+{% endif %}
 {% endblock content %}
